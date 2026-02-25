@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Control Map — Mental Skills</title>
+  <style>
+    /* ── FONTS ── */
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+    /* ── VARIABLES ── */
+    :root {
+      --dark:        #0d1929;
+      --navy:        #132d4a;
+      --blue:        #1a3d5c;
+      --border-blue: #64a0dc;
+      --yellow:      #ffd700;
+      --yellow-bg:   #fff9e0;
+      --yellow-dark: #7a6100;
+      --bg:          #f4f7fb;
+      --bg-card:     #ffffff;
+      --text:        #1a1a1a;
+      --text-mid:    #444;
+      --text-muted:  #777;
+      --green:       #16a34a;
+      --green-bg:    #f0fdf4;
+      --green-border:#86efac;
+      --red:         #b91c1c;
+      --red-bg:      #fff1f1;
+      --red-border:  #fca5a5;
+      --purple:      #5b21b6;
+      --purple-bg:   #f5f0ff;
+      --radius:      12px;
+      --shadow:      0 2px 12px rgba(13,25,41,0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 60px;
+    }
+
+    /* ── HERO HEADER ── */
+    .hero {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--navy) 60%, #1e4a6e 100%);
+      padding: 32px 20px 28px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,215,0,0.06);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -20px;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: rgba(100,160,220,0.07);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 10px;
+    }
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 32px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .hero-title span { color: var(--yellow); }
+    .hero-sub {
+      font-size: 14px;
+      opacity: 0.82;
+      line-height: 1.55;
+      max-width: 480px;
+    }
+
+    /* ── PROGRESS BAR ── */
+    .progress-bar {
+      background: rgba(255,255,255,0.12);
+      border-radius: 0;
+      height: 3px;
+      width: 100%;
+    }
+    .progress-fill {
+      height: 3px;
+      background: var(--yellow);
+      border-radius: 0;
+      transition: width 0.4s ease;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .content {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 24px 16px 0;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 28px 0 14px;
+    }
+    .section-num {
+      background: var(--navy);
+      color: var(--yellow);
+      font-size: 11px;
+      font-weight: 700;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.3px;
+    }
+    .section-divider {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border-blue), transparent);
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 18px;
+      margin-bottom: 14px;
+    }
+    .card-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--yellow-dark);
+      margin-bottom: 4px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .card-why {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .step-accent {
+      border-left: 3px solid var(--yellow);
+      padding-left: 12px;
+    }
+
+    /* ── INPUTS ── */
+    .field-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+      border: 1.5px solid #d8e4f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      line-height: 1.55;
+      resize: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+    textarea:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: var(--border-blue);
+      box-shadow: 0 0 0 3px rgba(100,160,220,0.15);
+    }
+    textarea { min-height: 72px; }
+    .hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 5px;
+    }
+
+    /* ── OPTION PILLS ── */
+    .options-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin: 12px 0 8px;
+    }
+    .options-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+    .opt-pill {
+      background: var(--bg);
+      border: 1.5px solid #d0dcea;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s;
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+    .opt-pill:hover { border-color: var(--border-blue); color: var(--navy); }
+    .opt-pill.selected {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--yellow);
+      font-weight: 600;
+    }
+    .or-divider {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      margin: 6px 0;
+      font-style: italic;
+    }
+
+    /* ── SAVE BUTTON ── */
+    .save-btn {
+      display: block;
+      width: 100%;
+      background: var(--navy);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      margin-top: 20px;
+      letter-spacing: 0.3px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .save-btn:hover { background: #0d1929; }
+    .save-btn:active { transform: scale(0.99); }
+    .save-btn .btn-accent { color: var(--yellow); }
+
+    /* ── SAVED PLAN DISPLAY ── */
+    .plan-display {
+      display: none;
+      background: linear-gradient(135deg, #0d1929, #132d4a);
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      color: white;
+      margin-bottom: 16px;
+    }
+    .plan-display.visible { display: block; }
+    .plan-display-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 14px;
+    }
+    .plan-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      align-items: flex-start;
+    }
+    .plan-step-badge {
+      background: var(--yellow);
+      color: var(--dark);
+      font-size: 9px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .plan-row-text {
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.92;
+    }
+    .plan-edit-btn {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      padding: 6px 12px;
+      cursor: pointer;
+      margin-top: 14px;
+      transition: background 0.2s;
+    }
+    .plan-edit-btn:hover { background: rgba(255,255,255,0.18); }
+
+    /* ── LOG SECTION ── */
+    .log-intro {
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .log-locked {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 24px 18px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+    .log-locked-icon { font-size: 28px; margin-bottom: 8px; }
+    .log-locked-text { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+    .log-locked-text strong { color: var(--navy); }
+
+    /* ── ADD ENTRY ── */
+    .add-entry-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 18px;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .add-entry-card.visible { display: block; }
+    .add-entry-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+    .field-row { margin-bottom: 14px; }
+    .step-checkboxes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .step-check {
+      background: var(--bg);
+      border: 1.5px solid #d0dcea;
+      border-radius: 8px;
+      padding: 7px 11px;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s;
+      color: var(--text-mid);
+    }
+    .step-check.checked {
+      background: var(--yellow-bg);
+      border-color: var(--yellow);
+      color: var(--yellow-dark);
+      font-weight: 600;
+    }
+    .log-submit-btn {
+      background: var(--green);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 6px;
+      transition: background 0.2s;
+    }
+    .log-submit-btn:hover { background: #15803d; }
+
+    /* ── ENTRIES LIST ── */
+    .entries-list { margin-bottom: 16px; }
+    .entry-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 16px 14px;
+      margin-bottom: 10px;
+      border-left: 3px solid var(--yellow);
+      animation: slideIn 0.25s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .entry-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .entry-date {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .entry-delete {
+      background: none;
+      border: none;
+      color: #ccc;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0 2px;
+      transition: color 0.15s;
+    }
+    .entry-delete:hover { color: var(--red); }
+    .entry-situation {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+      line-height: 1.45;
+    }
+    .entry-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+    .entry-step-tag {
+      background: var(--yellow-bg);
+      border: 1px solid #e8d44a;
+      color: var(--yellow-dark);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+    .entry-note {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.55;
+      font-style: italic;
+      border-left: 2px solid #e0e8f0;
+      padding-left: 10px;
+    }
+    .entry-outcome {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+      padding: 3px 9px;
+      border-radius: 12px;
+    }
+    .outcome-yes { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+    .outcome-partial { background: var(--yellow-bg); color: var(--yellow-dark); border: 1px solid #e8d44a; }
+    .outcome-no { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+
+    /* ── ADD LOG BUTTON ── */
+    .add-log-btn {
+      display: block;
+      width: 100%;
+      background: var(--bg-card);
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 13px;
+      border: 2px dashed #c0d4e8;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+    .add-log-btn:hover {
+      border-color: var(--border-blue);
+      background: #eef4fb;
+    }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      flex: 1;
+      background: var(--bg-card);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 14px 12px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    /* ── PRINT STYLES ── */
+    @media print {
+      body { background: white; padding: 0; }
+      .hero {
+        background: #132d4a !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        padding: 20px;
+        border-radius: 0;
+      }
+      .hero::before, .hero::after { display: none; }
+      .content { padding: 16px 0 0; }
+      .card { box-shadow: none; border: 1.5px solid #d0dcea; break-inside: avoid; }
+      .opt-pill, .add-log-btn, .save-btn, .log-submit-btn, .plan-edit-btn { display: none !important; }
+      textarea, input[type="text"] {
+        border: 1px solid #bbb;
+        background: white;
+        min-height: 44px;
+      }
+      .add-entry-card { display: none !important; }
+      .log-locked { display: none !important; }
+      .section-label { break-after: avoid; }
+      .stat-card { box-shadow: none; border: 1px solid #e0e0e0; }
+      .entry-card { box-shadow: none; border: 1.5px solid #d0dcea; border-left: 3px solid #ffd700; }
+      .plan-display {
+        background: #132d4a !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .print-only { display: block !important; }
+      .no-print { display: none !important; }
+      /* Print blank log lines if no entries */
+      .print-log-lines { display: block !important; }
+    }
+    .print-only { display: none; }
+    .print-log-lines { display: none; }
+
+    /* ── EMPTY STATE ── */
+    .empty-log {
+      text-align: center;
+      padding: 28px 16px;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .empty-log-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+
+    /* ── SCROLL MARGIN ── */
+    #log-section { scroll-margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">Control vs. Chaos · When Nothing's Going Your Way</div>
+      <div class="hero-title">My <span>Control Map</span></div>
+      <div class="hero-sub">Define your personal control zone — then track every time you used it to find solid ground.</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="content">
+
+    <!-- PART 1 -->
+    <div class="section-label">
+      <div class="section-num">1</div>
+      <div class="section-title">Build My Control Map</div>
+      <div class="section-divider"></div>
+    </div>
+    <p style="font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:18px;">
+      The tool only works if it's yours. Fill in each step with the specific words you'll actually use.
+    </p>
+
+    <!-- SAVED PLAN DISPLAY -->
+    <div class="plan-display" id="planDisplay">
+      <div class="plan-display-title">🗺 My Control Map</div>
+      <div class="plan-row">
+        <span class="plan-step-badge">STEP 1</span>
+        <span class="plan-row-text" id="displayAcknowledge"></span>
+      </div>
+      <div class="plan-row">
+        <span class="plan-step-badge">STEP 2</span>
+        <span class="plan-row-text" id="displayReset"></span>
+      </div>
+      <div class="plan-row">
+        <span class="plan-step-badge">STEP 3</span>
+        <span class="plan-row-text" id="displayAction"></span>
+      </div>
+      <button class="plan-edit-btn" onclick="editPlan()">✏ Edit my plan</button>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="card" id="step1Card">
+      <div class="card-label">Step 1</div>
+      <div class="card-title step-accent">Name What's Outside My Control</div>
+      <div class="card-why">Write the things that most often pull your focus away — the recurring uncontrollables that steal your energy. Naming them in advance makes it easier to set them aside in the moment.</div>
+      <div class="options-label">Quick options:</div>
+      <div class="options-grid">
+        <div class="opt-pill" onclick="selectPill(this,'pills','acknowledge')">Coach's lineup decisions</div>
+        <div class="opt-pill" onclick="selectPill(this,'pills','acknowledge')">Referee calls</div>
+        <div class="opt-pill" onclick="selectPill(this,'pills','acknowledge')">Teammates' mistakes</div>
+        <div class="opt-pill" onclick="selectPill(this,'pills','acknowledge')">The score / result</div>
+      </div>
+      <div class="or-divider">— or write your own —</div>
+      <div class="field-label">My recurring uncontrollables</div>
+      <textarea id="acknowledge" placeholder="e.g. The score, what coaches think, other players' performances" rows="2" oninput="updateProgress()"></textarea>
+      <div class="hint">Tip: List 2–3 specific things. Being concrete here makes the redirect faster.</div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="card" id="step2Card">
+      <div class="card-label">Step 2</div>
+      <div class="card-title step-accent">My Control Zone</div>
+      <div class="card-why">Write the things that are always in your control — your personal anchors. These are what you redirect to when everything else feels out of reach.</div>
+      <div class="options-label">Quick options:</div>
+      <div class="options-grid">
+        <div class="opt-pill" onclick="selectPill(this,'pills','physicalReset')">My effort and intensity</div>
+        <div class="opt-pill" onclick="selectPill(this,'pills','physicalReset')">My body language</div>
+        <div class="opt-pill" onclick="selectPill(this,'pills','physicalReset')">My communication</div>
+        <div class="opt-pill" onclick="selectPill(this,'pills','physicalReset')">My next touch / decision</div>
+      </div>
+      <div class="or-divider">— or write your own —</div>
+      <div class="field-label">My controllables</div>
+      <input type="text" id="physicalReset" placeholder="e.g. My effort, my attitude, my next action" oninput="updateProgress()">
+      <div class="hint">Tip: Keep this list to 3–4 things max. Too many options means no focus.</div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="card" id="step3Card">
+      <div class="card-label">Step 3</div>
+      <div class="card-title step-accent">My One Action</div>
+      <div class="card-why">Write your default single action — the specific thing you default to when you need to break a spiral and get moving again.</div>
+      <div class="options-label">Quick options:</div>
+      <div class="options-grid">
+        <div class="opt-pill" onclick="selectPill(this,'pills','nextAction')">Win the next duel</div>
+        <div class="opt-pill" onclick="selectPill(this,'pills','nextAction')">Get into position</div>
+        <div class="opt-pill" onclick="selectPill(this,'pills','nextAction')">Communicate with a teammate</div>
+        <div class="opt-pill" onclick="selectPill(this,'pills','nextAction')">Give everything on this next press</div>
+      </div>
+      <div class="or-divider">— or write your own —</div>
+      <div class="field-label">My default one action</div>
+      <input type="text" id="nextAction" placeholder="e.g. Win the next individual duel — that's always in my zone" oninput="updateProgress()">
+      <div class="hint">Tip: Make it something physical and immediate. Abstract goals don't break spirals.</div>
+    </div>
+
+    <button class="save-btn no-print" id="saveBtn" onclick="savePlan()">
+      Save <span class="btn-accent">my Control Map</span> →
+    </button>
+
+    <!-- PART 2: LOG -->
+    <div class="section-label" id="log-section">
+      <div class="section-num">2</div>
+      <div class="section-title">My Usage Log</div>
+      <div class="section-divider"></div>
+    </div>
+
+    <p class="log-intro">Log every time you used the Control Map — in a game, training, or a hard stretch of the season. Track what you were focused on and what you redirected to.</p>
+
+    <div class="log-locked" id="logLocked">
+      <div class="log-locked-icon">🔒</div>
+      <div class="log-locked-text"><strong>Build your Control Map first</strong><br>Once you've saved your personal plan above, the log unlocks.</div>
+    </div>
+
+    <div class="stats-row" id="statsRow" style="display:none">
+      <div class="stat-card">
+        <div class="stat-num" id="statTotal">0</div>
+        <div class="stat-label">Times used</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statWorked">0</div>
+        <div class="stat-label">Found solid ground</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statStreak">0</div>
+        <div class="stat-label">This month</div>
+      </div>
+    </div>
+
+    <div class="entries-list" id="entriesList"></div>
+
+    <button class="add-log-btn no-print" id="addLogBtn" style="display:none" onclick="showEntryForm()">
+      + Log a time I used the Control Map
+    </button>
+
+    <!-- ADD ENTRY FORM -->
+    <div class="add-entry-card" id="entryForm">
+      <div class="add-entry-title">Log an entry</div>
+
+      <div class="field-row">
+        <div class="field-label">Date / Game</div>
+        <input type="text" id="entryDate" placeholder="e.g. Feb 22 — vs. Portland">
+      </div>
+
+      <div class="field-row">
+        <div class="field-label">Situation</div>
+        <textarea id="entrySituation" placeholder="What happened? e.g. Team was losing 3–0, started to spiral — used the map to redirect to my effort and communication" rows="2"></textarea>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label">Which steps did you use?</div>
+        <div class="step-checkboxes">
+          <div class="step-check" id="check1" onclick="toggleCheck(this)">Named Uncontrollables</div>
+          <div class="step-check" id="check2" onclick="toggleCheck(this)">Found Control Zone</div>
+          <div class="step-check" id="check3" onclick="toggleCheck(this)">Picked One Action</div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label">Found solid ground or not?</div>
+        <div class="options-grid" id="outcomeOptions">
+          <div class="opt-pill" onclick="selectOutcome(this)">Found solid ground</div>
+          <div class="opt-pill" onclick="selectOutcome(this)">Partially redirected</div>
+          <div class="opt-pill" onclick="selectOutcome(this)">Still in the spiral</div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label">Quick note (optional)</div>
+        <textarea id="entryNote" placeholder="What did you redirect to? Did it help?" rows="2"></textarea>
+      </div>
+
+      <button class="log-submit-btn" onclick="submitEntry()">✓ Save this entry</button>
+      <button style="display:block;width:100%;margin-top:8px;padding:10px;background:none;border:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-muted);cursor:pointer;" onclick="hideEntryForm()">Cancel</button>
+    </div>
+
+    <!-- PRINT LOG TABLE -->
+    <div class="print-log-lines" id="printLogLines">
+      <div style="border-top:1px solid #ccc;margin:10px 0;padding-top:8px;font-size:12px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:0.5px;">Usage Log</div>
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <tr style="border-bottom:2px solid #132d4a;">
+          <th style="padding:5px 8px;text-align:left;width:22%;color:#132d4a;">Date / Game</th>
+          <th style="padding:5px 8px;text-align:left;width:32%;color:#132d4a;">Situation</th>
+          <th style="padding:5px 8px;text-align:left;width:22%;color:#132d4a;">Steps used</th>
+          <th style="padding:5px 8px;text-align:left;width:24%;color:#132d4a;">Outcome</th>
+        </tr>
+        <tr><td style="padding:8px;border-bottom:1px solid #e0e0e0;">&nbsp;</td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td></tr><tr><td style="padding:8px;border-bottom:1px solid #e0e0e0;">&nbsp;</td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td></tr><tr><td style="padding:8px;border-bottom:1px solid #e0e0e0;">&nbsp;</td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td></tr><tr><td style="padding:8px;border-bottom:1px solid #e0e0e0;">&nbsp;</td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td></tr><tr><td style="padding:8px;border-bottom:1px solid #e0e0e0;">&nbsp;</td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td></tr><tr><td style="padding:8px;border-bottom:1px solid #e0e0e0;">&nbsp;</td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td><td style="padding:8px;border-bottom:1px solid #e0e0e0;"></td></tr>
+      </table>
+    </div>
+
+  </div>
+
+  <script>
+    // ── STATE ──
+    let planSaved = false;
+    let entries = [];
+    let tempPillValues = {};
+
+    // Storage keys
+    const PLAN_KEY  = 'control-map-plan';
+    const LOG_KEY   = 'control-map-log';
+
+    // ── STORAGE HELPERS (localStorage — works without any account) ──
+    async function storageSave(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch(e) {
+        console.warn('Storage save failed:', e);
+      }
+    }
+
+    async function storageLoad(key) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : null;
+      } catch(e) {
+        return null;
+      }
+    }
+
+    async function storageDelete(key) {
+      try {
+        localStorage.removeItem(key);
+      } catch(e) {}
+    }
+
+    // ── PROGRESS BAR ──
+    function updateProgress() {
+      const fields = ['acknowledge','physicalReset','nextAction'];
+      const filled = fields.filter(f => document.getElementById(f).value.trim().length > 0).length;
+      document.getElementById('progressFill').style.width = (filled / 3 * 100) + '%';
+    }
+
+    // ── PILL SELECTION ──
+    function selectPill(el, groupId, fieldId) {
+      if (el.classList.contains('selected')) {
+        el.classList.remove('selected');
+        if (document.getElementById(fieldId).value === el.textContent.trim()) {
+          document.getElementById(fieldId).value = '';
+          updateProgress();
+        }
+        return;
+      }
+      const parent = el.parentElement;
+      parent.querySelectorAll('.opt-pill.selected').forEach(p => p.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById(fieldId).value = el.textContent.trim();
+      updateProgress();
+    }
+
+    // ── APPLY SAVED PLAN TO UI ──
+    function applyPlan(plan) {
+      document.getElementById('acknowledge').value   = plan.acknowledge;
+      document.getElementById('physicalReset').value = plan.physicalReset;
+      document.getElementById('nextAction').value    = plan.nextAction;
+
+      document.getElementById('displayAcknowledge').textContent = plan.acknowledge;
+      document.getElementById('displayReset').textContent       = plan.physicalReset;
+      document.getElementById('displayAction').textContent      = plan.nextAction;
+
+      ['step1Card','step2Card','step3Card'].forEach(id => {
+        document.getElementById(id).style.display = 'none';
+      });
+      document.getElementById('saveBtn').style.display = 'none';
+      document.getElementById('planDisplay').classList.add('visible');
+
+      planSaved = true;
+      document.getElementById('logLocked').style.display  = 'none';
+      document.getElementById('addLogBtn').style.display  = 'block';
+      document.getElementById('progressFill').style.width = '100%';
+    }
+
+    // ── SAVE PLAN ──
+    async function savePlan() {
+      const ack    = document.getElementById('acknowledge').value.trim();
+      const reset  = document.getElementById('physicalReset').value.trim();
+      const action = document.getElementById('nextAction').value.trim();
+
+      if (!ack || !reset || !action) {
+        const missing = [];
+        if (!ack)    missing.push('Step 1 (Acknowledge)');
+        if (!reset)  missing.push('Step 2 (Physical Reset)');
+        if (!action) missing.push('Step 3 (Next Action)');
+        alert('Please fill in: ' + missing.join(', '));
+        return;
+      }
+
+      const plan = { acknowledge: ack, physicalReset: reset, nextAction: action };
+      await storageSave(PLAN_KEY, plan);
+      applyPlan(plan);
+
+      setTimeout(() => {
+        document.getElementById('log-section').scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+
+    async function editPlan() {
+      ['step1Card','step2Card','step3Card'].forEach(id => {
+        document.getElementById(id).style.display = 'block';
+      });
+      document.getElementById('saveBtn').style.display = 'block';
+      document.getElementById('planDisplay').classList.remove('visible');
+      planSaved = false;
+      document.getElementById('addLogBtn').style.display  = 'none';
+      document.getElementById('logLocked').style.display  = 'block';
+    }
+
+    // ── STEP CHECKS ──
+    function toggleCheck(el) {
+      el.classList.toggle('checked');
+    }
+
+    // ── ENTRY FORM ──
+    function showEntryForm() {
+      document.getElementById('entryForm').classList.add('visible');
+      document.getElementById('addLogBtn').style.display = 'none';
+      const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      document.getElementById('entryDate').placeholder = today + ' — vs. [opponent]';
+      document.getElementById('entryForm').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function hideEntryForm() {
+      document.getElementById('entryForm').classList.remove('visible');
+      document.getElementById('addLogBtn').style.display = 'block';
+      resetEntryForm();
+    }
+
+    function resetEntryForm() {
+      document.getElementById('entryDate').value      = '';
+      document.getElementById('entrySituation').value = '';
+      document.getElementById('entryNote').value      = '';
+      document.querySelectorAll('.step-check').forEach(el => el.classList.remove('checked'));
+      document.querySelectorAll('#outcomeOptions .opt-pill').forEach(el => el.classList.remove('selected'));
+      delete tempPillValues['outcome'];
+    }
+
+    // ── SUBMIT ENTRY ──
+    async function submitEntry() {
+      const date      = document.getElementById('entryDate').value.trim();
+      const situation = document.getElementById('entrySituation').value.trim();
+
+      if (!situation) {
+        alert('Please describe the situation.');
+        return;
+      }
+
+      const stepsUsed = [];
+      if (document.getElementById('check1').classList.contains('checked')) stepsUsed.push('Acknowledge');
+      if (document.getElementById('check2').classList.contains('checked')) stepsUsed.push('Physical Reset');
+      if (document.getElementById('check3').classList.contains('checked')) stepsUsed.push('Next Action');
+
+      const entry = {
+        id: Date.now(),
+        date: date || new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        situation,
+        stepsUsed,
+        outcome: tempPillValues['outcome'] || '',
+        note: document.getElementById('entryNote').value.trim()
+      };
+
+      entries.unshift(entry);
+      await storageSave(LOG_KEY, entries);
+      renderEntries();
+      hideEntryForm();
+    }
+
+    // ── RENDER ENTRIES ──
+    function renderEntries() {
+      const list = document.getElementById('entriesList');
+
+      if (entries.length === 0) {
+        list.innerHTML = '<div class="empty-log"><span class="empty-log-icon">📋</span>No entries yet. Use the Switch in your next game or training session, then log it here.</div>';
+        document.getElementById('statsRow').style.display = 'none';
+        return;
+      }
+
+      const total      = entries.length;
+      const worked     = entries.filter(e =>
+        e.outcome === 'Found solid ground' || e.outcome === 'Partially redirected'
+      ).length;
+      const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime();
+      const monthCount = entries.filter(e => e.id >= monthStart).length;
+
+      document.getElementById('statTotal').textContent  = total;
+      document.getElementById('statWorked').textContent = worked;
+      document.getElementById('statStreak').textContent = monthCount;
+      document.getElementById('statsRow').style.display = 'flex';
+
+      list.innerHTML = entries.map(e => {
+        const outcomeClass = e.outcome === 'Found solid ground'           ? 'outcome-yes'     :
+                             e.outcome === 'Partially redirected' ? 'outcome-partial' : 'outcome-no';
+        const outcomeEmoji = e.outcome === 'Found solid ground'           ? '✓' :
+                             e.outcome === 'Partially redirected' ? '~' : '↻';
+        const stepTags   = e.stepsUsed.map(s => `<span class="entry-step-tag">${s}</span>`).join('');
+        const noteHtml   = e.note    ? `<div class="entry-note">${e.note}</div>` : '';
+        const outcomeHtml = e.outcome ? `<span class="entry-outcome ${outcomeClass}">${outcomeEmoji} ${e.outcome}</span>` : '';
+
+        return `
+          <div class="entry-card">
+            <div class="entry-meta">
+              <span class="entry-date">${e.date}</span>
+              <button class="entry-delete" onclick="deleteEntry(${e.id})" title="Delete">×</button>
+            </div>
+            <div class="entry-situation">${e.situation}</div>
+            ${stepTags ? `<div class="entry-steps">${stepTags}</div>` : ''}
+            ${noteHtml}
+            ${outcomeHtml}
+          </div>`;
+      }).join('');
+    }
+
+    // ── DELETE ENTRY ──
+    async function deleteEntry(id) {
+      entries = entries.filter(e => e.id !== id);
+      await storageSave(LOG_KEY, entries);
+      renderEntries();
+    }
+
+    // ── OUTCOME PILL ──
+    document.querySelectorAll('#outcomeOptions .opt-pill').forEach(pill => {
+      pill.addEventListener('click', function() {
+        document.querySelectorAll('#outcomeOptions .opt-pill').forEach(p => p.classList.remove('selected'));
+        this.classList.add('selected');
+        tempPillValues['outcome'] = this.textContent.trim();
+      });
+    });
+
+    // ── INIT — load persisted data ──
+    async function init() {
+      // Show loading state briefly while storage resolves
+      document.getElementById('entriesList').innerHTML =
+        '<div class="empty-log" style="opacity:0.5">Loading...</div>';
+
+      const [savedPlan, savedLog] = await Promise.all([
+        storageLoad(PLAN_KEY),
+        storageLoad(LOG_KEY)
+      ]);
+
+      if (savedPlan) {
+        applyPlan(savedPlan);
+      }
+
+      if (savedLog && Array.isArray(savedLog)) {
+        entries = savedLog;
+      }
+
+      renderEntries();
+    }
+
+    init();
+  </script>
+
+</body>
+</html>
